@@ -24,3 +24,28 @@ curl -X POST https://api.example.com/v2/refunds \
 ### Response
 
 Returns the refund with `status` set to `pending`.
+
+## Cancel a refund
+
+`POST /v2/refunds/{id}/cancel` cancels a refund that is still pending. The refund moves to status `cancelled` and a `refund.cancelled` webhook is sent.
+
+### Request
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | yes | The refund to cancel. Passed in the path. |
+
+```bash
+curl -X POST https://api.example.com/v2/refunds/re_123/cancel \
+  -H "Authorization: Bearer $API_KEY"
+```
+
+### Response
+
+Returns `200` with the updated refund, with `status` set to `cancelled`.
+
+If the refund is no longer pending, the request fails with HTTP `409` and the error code `refund_not_cancellable`.
+
+## Refund status
+
+The refund `status` is one of `pending`, `succeeded`, `failed`, or `cancelled`. The `cancelled` value is also accepted in the `status` query filter when listing refunds.
