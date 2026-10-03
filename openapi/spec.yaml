@@ -103,10 +103,14 @@ components:
           description: True when another page exists.
     Refund:
       type: object
-      required: [id, payment_id, amount, status]
+      required: [id, payment_id, amount, status, created_at]
       properties:
         id:
           type: string
+        created_at:
+          type: string
+          format: date-time
+          description: When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z.
         payment_id:
           type: string
         amount:
