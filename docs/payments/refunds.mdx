@@ -13,7 +13,7 @@ description: "Create and track refunds."
 |---|---|---|---|
 | `payment_id` | string | yes | The payment to refund. |
 | `amount` | integer | yes | Amount in minor units. |
-| `reason` | string | no | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `reason` | string | no | Why the refund is issued. Allowed values: `duplicate`, `fraudulent`, `requested_by_customer`. |
 
 ```bash
 curl -X POST https://api.example.com/v2/refunds \
