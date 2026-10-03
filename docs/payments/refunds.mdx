@@ -24,3 +24,30 @@ curl -X POST https://api.example.com/v2/refunds \
 ### Response
 
 Returns the refund with `status` set to `pending`.
+
+## Retrieve a refund
+
+`GET /v2/refunds/{id}` returns a refund by its ID. Use it to poll the status of a refund.
+
+### Request
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | yes | The ID of the refund. Passed in the path. |
+
+```bash
+curl https://api.example.com/v2/refunds/re_123 \
+  -H "Authorization: Bearer $API_KEY"
+```
+
+### Response
+
+Returns a `200` response with the refund.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | yes | The refund ID. |
+| `payment_id` | string | yes | The refunded payment. |
+| `amount` | integer | yes | The refund amount. |
+| `status` | string | yes | One of `pending`, `succeeded`, or `failed`. |
+| `failure_reason` | string | no | Present when `status` is `failed`. One of `insufficient_funds`, `card_closed`, or `expired`. |
