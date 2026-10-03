@@ -112,3 +112,10 @@ components:
           type: string
           enum: [duplicate, fraudulent, requested_by_customer]
           description: Why the refund is issued.
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+            maxLength: 500
+          maxProperties: 20
+          description: Up to 20 string key-value pairs stored with the refund and returned on every read.
