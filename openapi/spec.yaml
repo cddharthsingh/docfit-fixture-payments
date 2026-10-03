@@ -17,7 +17,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [pending, succeeded, failed]
+            enum: [pending, succeeded, failed, cancelled]
         - name: limit
           in: query
           schema:
@@ -68,6 +68,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Refund"
+  /v2/refunds/{id}/cancel:
+    post:
+      operationId: cancelRefund
+      summary: Cancel a pending refund
+      description: Cancels a refund that is still pending. The refund moves to status cancelled and a refund.cancelled webhook is sent.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The cancelled refund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
+        "409":
+          description: The refund is no longer pending (error code refund_not_cancellable)
 components:
   schemas:
     RefundList:
@@ -93,7 +113,7 @@ components:
           type: integer
         status:
           type: string
-          enum: [pending, succeeded, failed]
+          enum: [pending, succeeded, failed, cancelled]
         failure_reason:
           type: string
           enum: [insufficient_funds, card_closed, expired]
