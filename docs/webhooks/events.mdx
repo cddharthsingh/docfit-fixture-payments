@@ -13,3 +13,7 @@ Sent when a refund is created.
 | `payment_id` | string | The refunded payment. |
 | `amount` | integer | Amount in minor units. |
 | `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+
+## refund.cancelled
+
+Sent when a pending refund is cancelled.
