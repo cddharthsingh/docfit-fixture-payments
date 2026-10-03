@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Payments API
+  version: "2.0"
+paths:
+  /v2/refunds:
+    post:
+      operationId: createRefund
+      summary: Create a refund
+      description: Refunds all or part of a payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRefundRequest"
+      responses:
+        "201":
+          description: Refund created
+components:
+  schemas:
+    CreateRefundRequest:
+      type: object
+      required: [payment_id, amount]
+      properties:
+        payment_id:
+          type: string
+          description: The payment to refund.
+        amount:
+          type: integer
+          description: Amount in minor units.

@@ -1,0 +1,25 @@
+---
+title: "Refunds"
+description: "Create and track refunds."
+---
+
+## Create a refund
+
+`POST /v2/refunds` refunds all or part of a payment.
+
+### Request
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `payment_id` | string | yes | The payment to refund. |
+| `amount` | integer | yes | Amount in minor units. |
+
+```bash
+curl -X POST https://api.example.com/v2/refunds \
+  -H "Authorization: Bearer $API_KEY" \
+  -d '{"payment_id": "pay_123", "amount": 500}'
+```
+
+### Response
+
+Returns the refund with `status` set to `pending`.
