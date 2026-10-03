@@ -17,8 +17,43 @@ paths:
       responses:
         "201":
           description: Refund created
+  /v2/refunds/{id}:
+    get:
+      operationId: getRefund
+      summary: Retrieve a refund
+      description: Returns a refund by id, including its status and failure reason when it failed.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The refund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
 components:
   schemas:
+    Refund:
+      type: object
+      required: [id, payment_id, amount, status]
+      properties:
+        id:
+          type: string
+        payment_id:
+          type: string
+        amount:
+          type: integer
+        status:
+          type: string
+          enum: [pending, succeeded, failed]
+        failure_reason:
+          type: string
+          enum: [insufficient_funds, card_closed, expired]
+          description: Present when status is failed.
     CreateRefundRequest:
       type: object
       required: [payment_id, amount]
