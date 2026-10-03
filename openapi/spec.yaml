@@ -4,6 +4,39 @@ info:
   version: "2.0"
 paths:
   /v2/refunds:
+    get:
+      operationId: listRefunds
+      summary: List refunds
+      description: Returns refunds newest first, filtered by payment or status, 20 per page by default.
+      parameters:
+        - name: payment_id
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, succeeded, failed]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: starting_after
+          in: query
+          description: Cursor; the id of the last refund on the previous page.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A page of refunds
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefundList"
     post:
       operationId: createRefund
       summary: Create a refund
@@ -37,6 +70,17 @@ paths:
                 $ref: "#/components/schemas/Refund"
 components:
   schemas:
+    RefundList:
+      type: object
+      required: [data, has_more]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Refund"
+        has_more:
+          type: boolean
+          description: True when another page exists.
     Refund:
       type: object
       required: [id, payment_id, amount, status]
