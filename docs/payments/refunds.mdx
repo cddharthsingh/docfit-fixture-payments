@@ -24,3 +24,30 @@ curl -X POST https://api.example.com/v2/refunds \
 ### Response
 
 Returns the refund with `status` set to `pending`.
+
+## List refunds
+
+`GET /v2/refunds` returns refunds, newest first. Filter by payment or status, and page through results with a cursor.
+
+### Query parameters
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `payment_id` | string | no | Only return refunds of this payment. |
+| `status` | string | no | Only return refunds in this status. One of `pending`, `succeeded`, or `failed`. |
+| `limit` | integer | no | Page size, from 1 to 100. Defaults to 20. |
+| `starting_after` | string | no | Cursor: the id of the last refund on the previous page. |
+
+```bash
+curl "https://api.example.com/v2/refunds?payment_id=pay_123&status=succeeded&limit=20" \
+  -H "Authorization: Bearer $API_KEY"
+```
+
+### Response
+
+Returns a `RefundList` object:
+
+| Field | Type | Description |
+|---|---|---|
+| `data` | array of refunds | The refunds on this page. |
+| `has_more` | boolean | `true` when another page exists. Pass the id of the last refund as `starting_after` to fetch it. |
