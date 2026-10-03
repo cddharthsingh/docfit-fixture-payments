@@ -3,4 +3,5 @@ export interface RefundEvent {
   id: string;
   payment_id: string;
   amount: number;
+  reason?: "duplicate" | "fraudulent" | "requested_by_customer";
 }
