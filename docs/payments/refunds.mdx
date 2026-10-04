@@ -14,6 +14,7 @@ description: "Create and track refunds."
 | `payment_id` | string | yes | The payment to refund. |
 | `amount` | integer | yes | Amount in minor units. |
 | `reason` | string | no | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `metadata` | object | no | Up to 20 string key-value pairs stored with the refund and returned on every read. Keys up to 40 characters and values up to 500 characters. |
 
 ```bash
 curl -X POST https://api.example.com/v2/refunds \
