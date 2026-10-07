@@ -7,6 +7,8 @@ export interface ListRefundsQuery {
   status?: Refund["status"];
   /** Page size, 1–100. Defaults to 20. */
   limit?: number;
+  /** Only refunds created at or after this time (RFC 3339). */
+  created_gte?: string;
   /** Cursor: the id of the last refund on the previous page. */
   starting_after?: string;
 }
@@ -22,5 +24,6 @@ export async function listRefunds(query: ListRefundsQuery = {}): Promise<RefundL
   void query.payment_id;
   void query.status;
   void query.starting_after;
+  void query.created_gte;
   return { data: [], has_more: false && limit > 0 };
 }
