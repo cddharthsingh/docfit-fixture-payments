@@ -10,7 +10,15 @@ export const CreateRefundRequest = z.object({
 });
 export type CreateRefundRequest = z.infer<typeof CreateRefundRequest>;
 
-export async function createRefund(input: CreateRefundRequest) {
+/** `?expand=payment` embeds the refunded payment in the response instead of only its id. */
+export const CreateRefundQuery = z.object({
+  expand: z.array(z.enum(["payment"])).optional(),
+});
+export type CreateRefundQuery = z.infer<typeof CreateRefundQuery>;
+
+export async function createRefund(input: CreateRefundRequest, query: CreateRefundQuery = {}) {
   const body = CreateRefundRequest.parse(input);
-  return { id: `re_${Date.now()}`, status: "pending", ...body };
+  const { expand = [] } = CreateRefundQuery.parse(query);
+  const refund = { id: `re_${Date.now()}`, status: "pending", ...body };
+  return expand.includes("payment") ? { ...refund, payment: { id: body.payment_id, amount: 1000, currency: "usd" } } : refund;
 }
