@@ -9,6 +9,8 @@ export interface ListRefundsQuery {
   limit?: number;
   /** Only refunds created at or after this time (RFC 3339). */
   created_gte?: string;
+  /** Only refunds created before this time (RFC 3339). */
+  created_lt?: string;
   /** Cursor: the id of the last refund on the previous page. */
   starting_after?: string;
 }
@@ -25,5 +27,6 @@ export async function listRefunds(query: ListRefundsQuery = {}): Promise<RefundL
   void query.status;
   void query.starting_after;
   void query.created_gte;
+  void query.created_lt;
   return { data: [], has_more: false && limit > 0 };
 }
