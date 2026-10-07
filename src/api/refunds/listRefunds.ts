@@ -5,7 +5,7 @@ export interface ListRefundsQuery {
   payment_id?: string;
   /** Only refunds in this status. */
   status?: Refund["status"];
-  /** Page size, 1–100. Defaults to 20. */
+  /** Page size, 1–100. Defaults to 20. Larger pages are capped at 100. */
   limit?: number;
   /** Only refunds created at or after this time (RFC 3339). */
   created_gte?: string;
