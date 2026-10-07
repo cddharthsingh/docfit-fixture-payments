@@ -41,6 +41,16 @@ paths:
       operationId: createRefund
       summary: Create a refund
       description: Refunds all or part of a payment.
+      parameters:
+        - name: expand
+          in: query
+          required: false
+          description: Related objects to embed in the response. `payment` returns the refunded payment object instead of only `payment_id`.
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [payment]
       requestBody:
         required: true
         content:
