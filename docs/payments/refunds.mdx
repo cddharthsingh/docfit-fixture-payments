@@ -13,7 +13,13 @@ description: "Create and track refunds."
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `expand` | array | no | Accepts `payment` to embed related payment details in the refund response. |
+| `expand` | array | no | Accepts `payment` to embed related payment details in the refund response. Set `expand=payment` in the query string. |
+
+```bash
+curl -X POST https://api.example.com/v2/refunds?expand=payment \
+  -H "Authorization: Bearer $API_KEY" \
+  -d '{"payment_id": "pay_123", "amount": 500}'
+```
 
 #### Request body
 
