@@ -12,5 +12,5 @@ export class RefundNotCancellableError extends Error {
 export async function cancelRefund(id: string): Promise<Refund> {
   const refund = await getRefund(id);
   if (refund.status !== "pending") throw new RefundNotCancellableError(id, refund.status);
-  return { ...refund, status: "cancelled" };
+  return { ...refund, status: "cancelled", cancelled_at: new Date().toISOString() };
 }
