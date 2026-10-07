@@ -5,6 +5,8 @@ export interface Refund {
   status: "pending" | "succeeded" | "failed" | "cancelled";
   /** When the refund was created: RFC 3339, UTC, millisecond precision (SAM1-12). */
   created_at: string;
+  /** When the refund was cancelled: RFC 3339, UTC. Present when status is "cancelled". */
+  cancelled_at?: string;
   /** Present when status is "failed". */
   failure_reason?: "insufficient_funds" | "card_closed" | "expired";
 }
