@@ -44,7 +44,7 @@ Sent when the money has reached the customer.
 | `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
 | `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
 | `succeeded_at` | string | When the refund settled. |
-| `arn` | string | The card network's reference, shown on the customer's statement. Absent for bank transfers. |
+| `arn` | string | Acquirer Reference Number. The card network's reference, shown on the customer's statement. Customers can give it to their bank to trace the refund. Absent for bank transfers. |
 
 ```json
 {
@@ -75,7 +75,7 @@ Sent when the refund could not be paid out. The amount returns to the merchant b
 | `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
 | `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
 | `failed_at` | string | When the refund failed. |
-| `failure_code` | string | Reason for failure. One of `expired_card`, `account_closed`, `insufficient_balance`, or `declined`. |
+| `failure_code` | string | Reason for failure:<br />`expired_card`: Ask the customer for another card.<br />`account_closed`: Ask the customer for an alternative payment method.<br />`insufficient_balance`: Top up your merchant balance.<br />`declined`: Ask the customer to contact their card issuer. |
 | `failure_message` | string | Human-readable explanation, safe to show to the merchant. |
 
 ```json
