@@ -3,19 +3,24 @@ title: "Signatures"
 description: "Verify webhook signatures."
 ---
 
-Webhook deliveries include a `DocPay-Signature` header to verify authenticity and protect against replay attacks.
+DocPay signs webhook deliveries so you can verify that requests were sent by DocPay and not by an attacker. Every delivery includes the `DocPay-Signature` header.
 
-## Header format
+## Signature format
 
-The `DocPay-Signature` header contains a timestamp and a signature:
+The `DocPay-Signature` header has the following format:
 
-```http
+```
 DocPay-Signature: t=<unix seconds>,v1=<hex HMAC-SHA256 of 't.body'>
 ```
 
-- `t`: The timestamp of the delivery in Unix seconds.
-- `v1`: The hex HMAC-SHA256 of `t.body`.
+- `t`: Delivery timestamp in Unix seconds.
+- `v1`: Hexadecimal HMAC-SHA256 signature computed over `t.body` (the timestamp `t`, a period `.`, and the raw request body).
 
-## Verification
+## Verifying signatures
 
-Reject deliveries older than 300 seconds (5 minutes) to protect against replay attacks.
+To verify a webhook signature:
+
+1. **Extract timestamp and signature**: Parse the `t` timestamp and `v1` signature from the `DocPay-Signature` header.
+2. **Check timestamp tolerance**: Reject deliveries older than 300 seconds (5 minutes) to prevent replay attacks (`SIGNATURE_TOLERANCE_SECONDS = 300`).
+3. **Compute expected signature**: Compute the HMAC-SHA256 of `t.body` using your webhook secret and format it in hexadecimal.
+4. **Compare signatures**: Compare the computed signature to the `v1` value in the header.
