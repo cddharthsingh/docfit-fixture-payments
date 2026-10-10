@@ -16,6 +16,13 @@ export const CreateRefundQuery = z.object({
 });
 export type CreateRefundQuery = z.infer<typeof CreateRefundQuery>;
 
+/**
+ * Send `Idempotency-Key: <unique string>` to retry safely: a repeated key within 24 hours returns the
+ * first response instead of creating a second refund. Keys are up to 255 characters.
+ */
+export const IDEMPOTENCY_HEADER = "Idempotency-Key";
+export const IDEMPOTENCY_WINDOW_HOURS = 24;
+
 export async function createRefund(input: CreateRefundRequest, query: CreateRefundQuery = {}) {
   const body = CreateRefundRequest.parse(input);
   const { expand = [] } = CreateRefundQuery.parse(query);
