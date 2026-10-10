@@ -7,6 +7,12 @@ description: "Create and track refunds."
 
 `POST /v2/refunds` refunds all or part of a payment.
 
+### Headers
+
+| Header | Type | Required | Description |
+|---|---|---|---|
+| `Idempotency-Key` | string | no | Key of up to 255 characters to retry requests safely. Sending a repeated key within 24 hours returns the initial response instead of creating a second refund. |
+
 ### Request
 
 | Field | Type | Required | Description |
@@ -24,3 +30,16 @@ curl -X POST https://api.example.com/v2/refunds \
 ### Response
 
 Returns the refund with `status` set to `pending` and `created_at` set to when the refund was created (RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z).
+
+## List refunds
+
+`GET /v2/refunds` lists refunds.
+
+### Query parameters
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `starting_after` | string | no | Cursor: the id of the last refund on the previous page. Cannot be combined with `ending_before`. |
+| `ending_before` | string | no | Cursor for paging backwards: the id of the first refund on the current page. Cannot be combined with `starting_after`. |
+
+Specifying both `starting_after` and `ending_before` is not permitted and results in an error: `use either starting_after or ending_before, not both`.
