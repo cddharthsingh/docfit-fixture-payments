@@ -1,0 +1,21 @@
+---
+title: "Signatures"
+description: "Verify webhook signatures."
+---
+
+Webhook deliveries include a `DocPay-Signature` header to verify authenticity and protect against replay attacks.
+
+## Header format
+
+The `DocPay-Signature` header contains a timestamp and a signature:
+
+```http
+DocPay-Signature: t=<unix seconds>,v1=<hex HMAC-SHA256 of 't.body'>
+```
+
+- `t`: The timestamp of the delivery in Unix seconds.
+- `v1`: The hex HMAC-SHA256 of `t.body`.
+
+## Verification
+
+Reject deliveries older than 300 seconds (5 minutes) to protect against replay attacks.

@@ -12,5 +12,70 @@ Sent when a refund is created.
 | `id` | string | Refund id. |
 | `payment_id` | string | The refunded payment. |
 | `amount` | integer | Amount in minor units. |
+| `currency` | string | Currency of the refund. |
+| `status` | string | Refund status. Set to `pending`. |
 | `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
 | `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
+
+## refund.succeeded
+
+Sent when the money has reached the customer.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Refund id. |
+| `payment_id` | string | The refunded payment. |
+| `amount` | integer | Amount in minor units. |
+| `currency` | string | Currency of the refund. |
+| `status` | string | Refund status. Set to `succeeded`. |
+| `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
+| `succeeded_at` | string | When the refund settled. |
+| `arn` | string | Optional. The card network's reference, shown on the customer's statement. Absent for bank transfers. |
+
+## refund.failed
+
+Sent when the refund could not be paid out. The amount returns to the merchant balance.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Refund id. |
+| `payment_id` | string | The refunded payment. |
+| `amount` | integer | Amount in minor units. |
+| `currency` | string | Currency of the refund. |
+| `status` | string | Refund status. Set to `failed`. |
+| `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
+| `failed_at` | string | When the refund failed. |
+| `failure_code` | string | Why the refund failed. One of `expired_card`, `account_closed`, `insufficient_balance`, or `declined`. |
+| `failure_message` | string | Human-readable explanation, safe to show to the merchant. |
+
+## refund.cancelled
+
+Sent when a pending refund is cancelled.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Refund id. |
+| `payment_id` | string | The refunded payment. |
+| `amount` | integer | Amount in minor units. |
+| `currency` | string | Currency of the refund. |
+| `status` | string | Refund status. Set to `cancelled`. |
+| `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
+| `cancelled_at` | string | When the refund was cancelled. |
+
+## refund.updated
+
+Sent when `metadata` or `reason` changes on an existing refund.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Refund id. |
+| `payment_id` | string | The refunded payment. |
+| `amount` | integer | Amount in minor units. |
+| `currency` | string | Currency of the refund. |
+| `status` | string | Refund status. One of `pending`, `succeeded`, `failed`, or `cancelled`. |
+| `reason` | string | Why the refund is issued. One of `duplicate`, `fraudulent`, or `requested_by_customer`. |
+| `created_at` | string | When the refund was created. RFC 3339 in UTC with millisecond precision, e.g. 2026-10-04T09:30:00.000Z. |
+| `previous_attributes` | object | The changed fields with their values before the update. Contains previous `reason` and `metadata` values. |
