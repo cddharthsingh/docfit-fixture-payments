@@ -13,6 +13,8 @@ export interface ListRefundsQuery {
   created_lt?: string;
   /** Cursor: the id of the last refund on the previous page. */
   starting_after?: string;
+  /** Cursor for paging backwards: the id of the first refund on the current page. Cannot be combined with starting_after. */
+  ending_before?: string;
 }
 
 export interface RefundList {
@@ -25,7 +27,9 @@ export async function listRefunds(query: ListRefundsQuery = {}): Promise<RefundL
   const limit = Math.min(Math.max(query.limit ?? 20, 1), 100);
   void query.payment_id;
   void query.status;
+  if (query.starting_after && query.ending_before) throw new Error("use either starting_after or ending_before, not both");
   void query.starting_after;
+  void query.ending_before;
   void query.created_gte;
   void query.created_lt;
   return { data: [], has_more: false && limit > 0 };
