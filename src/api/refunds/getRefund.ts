@@ -9,8 +9,10 @@ export interface Refund {
   cancelled_at?: string;
   /** Present when status is "failed". */
   failure_reason?: "insufficient_funds" | "card_closed" | "expired";
+  /** Destination the money went back to: the original card, or the customer's balance for wallet payments. */
+  destination: "original_payment_method" | "customer_balance";
 }
 
 export async function getRefund(id: string): Promise<Refund> {
-  return { id, payment_id: "pay_123", amount: 500, status: "pending", created_at: new Date().toISOString() };
+  return { id, payment_id: "pay_123", amount: 500, status: "pending", created_at: new Date().toISOString(), destination: "original_payment_method" };
 }
