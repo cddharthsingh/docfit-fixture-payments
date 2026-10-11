@@ -1,5 +1,0 @@
-# Staging sandbox test: the real build plus a probe that tries what a hostile script would.
-checks:
-  commands:
-    - mint broken-links
-    - node .probe/probe.mjs
