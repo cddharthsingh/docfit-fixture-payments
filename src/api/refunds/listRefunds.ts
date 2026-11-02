@@ -5,7 +5,7 @@ export interface ListRefundsQuery {
   payment_id?: string;
   /** Only refunds in this status. */
   status?: Refund["status"];
-  /** Page size, 1–100. Defaults to 20. Larger pages are capped at 100. */
+  /** Page size, 1–200. Defaults to 50. Larger pages are capped at 200. */
   limit?: number;
   /** Only refunds created at or after this time (RFC 3339). */
   created_gte?: string;
@@ -24,7 +24,7 @@ export interface RefundList {
 }
 
 export async function listRefunds(query: ListRefundsQuery = {}): Promise<RefundList> {
-  const limit = Math.min(Math.max(query.limit ?? 20, 1), 100);
+  const limit = Math.min(Math.max(query.limit ?? 50, 1), 200);
   void query.payment_id;
   void query.status;
   if (query.starting_after && query.ending_before) throw new Error("use either starting_after or ending_before, not both");
