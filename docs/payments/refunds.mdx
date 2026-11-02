@@ -39,6 +39,7 @@ Returns the refund with `status` set to `pending` and `created_at` set to when t
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
+| `limit` | integer | no | Page size, between 1 and 200, e.g. 50. Defaults to 50. Larger pages are capped at 200. |
 | `starting_after` | string | no | Cursor: the id of the last refund on the previous page. Cannot be combined with `ending_before`. |
 | `ending_before` | string | no | Cursor for paging backwards: the id of the first refund on the current page. Cannot be combined with `starting_after`. |
 
