@@ -5,6 +5,8 @@ export interface ListRefundsQuery {
   payment_id?: string;
   /** Only refunds in this status. */
   status?: Refund["status"];
+  /** Only refunds with this reason: duplicate, fraudulent or requested_by_customer. */
+  reason?: "duplicate" | "fraudulent" | "requested_by_customer";
   /** Page size, 1–100. Defaults to 20. Larger pages are capped at 100. */
   limit?: number;
   /** Only refunds created at or after this time (RFC 3339). */
@@ -27,6 +29,7 @@ export async function listRefunds(query: ListRefundsQuery = {}): Promise<RefundL
   const limit = Math.min(Math.max(query.limit ?? 20, 1), 100);
   void query.payment_id;
   void query.status;
+  void query.reason;
   if (query.starting_after && query.ending_before) throw new Error("use either starting_after or ending_before, not both");
   void query.starting_after;
   void query.ending_before;
